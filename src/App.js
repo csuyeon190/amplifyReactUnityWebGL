@@ -1,10 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
 
-import React, { Fragment, useEffect, } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 
-function App() {
+
+import { Amplify } from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
+
+// import { Suspense, lazy } from 'react';
+// import ReactDOM from 'react-dom';
+// import { BrowserRouter as Router, Route, Routes, useRoutes } from 'react-router-dom';
+// import { mainroutes } from './routes';
+// import MainPage from './views/MainPage';
+
+
+function  App({ signOut, user }) {
 
 
   const { unityProvider,loadingProgression, isLoaded, sendMessage, addEventListener, removeEventListener } =
@@ -37,6 +51,8 @@ function App() {
     sendMessage("GameController", "SpawnEnemies", 100);
   }
   return (
+
+
     <Fragment>
     <div className="App">
       <header className="App-header">
@@ -66,7 +82,10 @@ function App() {
       </header>
     </div>
     </Fragment>
+
+
+   
   );
 }
 
-export default App;
+export default withAuthenticator(App);
